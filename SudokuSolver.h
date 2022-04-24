@@ -36,9 +36,16 @@ public:
   void printPuzzle() {
     for(int i = 0; i < 9; ++i) {
       for(int j = 0; j < 9; ++j) {
-        cout << puzzle[i][j].box << ' ';
+        cout << puzzle[i][j].value << ' ';
       }
       cout << '\n';
+    }
+  }
+
+  void run() {
+    initSolve();
+    for(int i = 0; i < 10; ++i) {
+      runRules();
     }
   }
 
@@ -53,7 +60,7 @@ private:
     for(int i = 0; i < 9; ++i) {
       for(int j = 0; j < 9; ++j) {
         if(puzzle[i][j].value > 0) {
-          boxes[puzzle[i][j].box].insert(pair<int, int>(puzzle[i][j].value, 0))
+          boxes[puzzle[i][j].box].insert(pair<int, int>(puzzle[i][j].value, 0));
           rows[i].insert(pair<int, int>(puzzle[i][j].value, 0));
           cols[j].insert(pair<int, int>(puzzle[i][j].value, 0));
         }
@@ -61,8 +68,29 @@ private:
     }
   }
 
-  void ruleBox() {
+  //Removes duplicates in boxes, rows, and cols.
+  void ruleLayerOne() {
+    for(int i = 0; i < 9; ++i) {
+      for(int j = 0; j < 9; ++j) {
+        for(auto k : boxes[puzzle[i][j].box]) puzzle[i][j].potentials.erase(k.first);
+        for(auto k : rows[i]) puzzle[i][j].potentials.erase(k.first);
+        for(auto k : cols[j]) puzzle[i][j].potentials.erase(k.first);
+      }
+    }
+  }
 
+  //Sets value of all squares with only one remaining potential.
+  void updateValues() {
+    for(int i = 0; i < 9; ++i) {
+      for(int j = 0; j < 9; ++j) {
+        if(puzzle[i][j].potentials.size() == 1 && puzzle[i][j].value == 0) puzzle[i][j].value = (*puzzle[i][j].potentials.begin()).first;
+      }
+    }
+  }
+
+  void runRules() {
+    ruleLayerOne();
+    updateValues();
   }
 
   struct Square {

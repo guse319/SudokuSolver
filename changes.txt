@@ -1,0 +1,12 @@
+r1:
+Project started
+Added solver class
+- Added readPuzzle
+- Added printPuzzle
+- Added runRules
+- Added ruleLayerOne
+- Added updateValues
+- Added run
+- Added initSolve
+Added main
+Added test1
