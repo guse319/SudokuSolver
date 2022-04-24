@@ -10,3 +10,6 @@ Added solver class
 - Added initSolve
 Added main
 Added test1
+
+r2:
+Updated updateValues to also store new completed squares in the boxes, rows, and cols vectors.

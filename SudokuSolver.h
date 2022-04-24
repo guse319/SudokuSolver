@@ -83,7 +83,12 @@ private:
   void updateValues() {
     for(int i = 0; i < 9; ++i) {
       for(int j = 0; j < 9; ++j) {
-        if(puzzle[i][j].potentials.size() == 1 && puzzle[i][j].value == 0) puzzle[i][j].value = (*puzzle[i][j].potentials.begin()).first;
+        if(puzzle[i][j].potentials.size() == 1 && puzzle[i][j].value == 0) {
+          puzzle[i][j].value = (*puzzle[i][j].potentials.begin()).first;
+          boxes[puzzle[i][j].box].insert(pair<int, int>(puzzle[i][j].value, 0));
+          rows[i].insert(pair<int, int>(puzzle[i][j].value, 0));
+          cols[j].insert(pair<int, int>(puzzle[i][j].value, 0));
+        }
       }
     }
   }
